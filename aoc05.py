@@ -1,4 +1,4 @@
-from typing import List, Set
+from typing import Iterable, Set
 
 
 def translate_seat_number(seat_code: str) -> int:
@@ -14,7 +14,7 @@ def translate_seat_number(seat_code: str) -> int:
     return int(binary, base=2)
 
 
-def find_missing_seats(seats: List[int]) -> Set[int]:
+def find_missing_seats(seats: Iterable[int]) -> Set[int]:
     """
     Given a list of seat *numbers*, will return a set of any
     unaccounted for seats in the range.

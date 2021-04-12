@@ -1,4 +1,4 @@
-from typing import Iterable, List, Tuple
+from typing import List, Iterable, Tuple
 from math import prod
 
 
@@ -80,7 +80,7 @@ with open("input/aoc03.txt") as f:
 slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 
 solution1 = Toboggan((3, 1)).sled(terrain).count("#")
-solution2 = prod(Toboggan(slope).sled(terrain).count("#") for slope in slopes)
+solution2 = prod(Toboggan().sled(terrain).count("#") for slope in slopes)
 
 assert solution1 == 234  # Solution 1
 assert solution2 == 5_813_773_056  # Solution 2

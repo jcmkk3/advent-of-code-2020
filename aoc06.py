@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import Iterator, Set
+from typing import Iterable, Set
 
 
 class CustomsForm:
@@ -9,7 +9,7 @@ class CustomsForm:
     questions in which the member answered "yes".
     """
 
-    def __init__(self, answers: Iterator[str]):
+    def __init__(self, answers: Iterable[str]):
         self.answers = list(answers)
 
     @classmethod
@@ -38,7 +38,7 @@ class CustomsForm:
         assert form.any_answerd == {'a', 'b', 'c', 'd'}
         ```
         """
-        return reduce(set.union, self.answers, set())
+        return reduce(set.union, self.answers, initial=set())
 
     @property
     def all_answered(self) -> Set[str]:
@@ -51,11 +51,13 @@ class CustomsForm:
         assert form.all_answerd == {'a', 'b'}
         ```
         """
-        return reduce(set.intersection, self.answers, self.any_answered)
+        return reduce(set.intersection, self.answers, initial=self.any_answered)
 
+
+BLANK_LINE = "\n\n"
 
 with open("input/aoc06.txt") as f:
-    forms = [CustomsForm.from_str(l) for l in f.read().split("\n\n")]
+    forms = [CustomsForm.from_str(s) for s in f.read().split(BLANK_LINE)]
 
 assert sum(len(f.any_answered) for f in forms) == 6506  # Solution 1
 assert sum(len(f.all_answered) for f in forms) == 3243  # Solution 2

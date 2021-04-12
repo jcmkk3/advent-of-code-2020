@@ -62,7 +62,7 @@ class Passport(UserDict):
             value = self[key]
             is_valid = self.validators[key]
             return bool(is_valid(value))
-        except:
+        except Exception:
             return False
 
     @property
@@ -71,8 +71,10 @@ class Passport(UserDict):
         return all(self.is_valid(key) for key in self.validators.keys())
 
 
+BLANK_LINE = "\n\n"
+
 with open("input/aoc04.txt") as f:
-    passports = [Passport.from_str(s) for s in f.read().split("\n\n")]
+    passports = [Passport.from_str(s) for s in f.read().split(BLANK_LINE)]
 
 assert sum(p.has_required_fields for p in passports) == 196  # Solution 1
 assert sum(p.all_valid for p in passports) == 114  # Solution 2

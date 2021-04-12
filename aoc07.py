@@ -2,8 +2,10 @@ import re
 from typing import Tuple, Dict, Set
 from collections import deque, Counter
 
-
+#  ('light red', {'bright white': 1, 'muted yellow': 2})
 Bag = Tuple[str, Dict[str, int]]
+
+#  {'light red': {'bright white': 1, 'muted yellow': 2}, 'shiny silver': {'light red': 3}}
 Bags = Dict[str, Dict[str, int]]
 
 
@@ -15,7 +17,7 @@ def parse_bag(text: str) -> Bag:
 
     ```
     text = "light red bags contain 1 bright white bag, 2 muted yellow bags."
-    assert parse_bag(text) == ('light red bags', {'bright white': 1, 'muted yellow': 2})
+    assert parse_bag(text) == ('light red', {'bright white': 1, 'muted yellow': 2})
     ```
     """
     text = "1 " + text  # Add 1 to parent bag to make pattern consistent
@@ -61,7 +63,7 @@ def find_children(color: str, bags: Bags) -> Counter:
 
 
 with open("input/aoc07.txt") as f:
-    bags: Bags = dict(parse_bag(s) for s in f.readlines())
+    bags: Bags = dict(parse_bag(l) for l in f.readlines())
 
 assert len(find_parents("shiny gold", bags)) == 335  # Solution 1
 assert sum(find_children("shiny gold", bags).values()) == 2431  # Solution 2

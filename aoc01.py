@@ -16,7 +16,7 @@ def find_combination(numbers: Iterable[int], target: int, n_combos: int = 2):
 
 
 with open("input/aoc01.txt") as f:
-    expenses = [int(line) for line in f.readlines()]
+    expenses = [int(l) for l in f.readlines()]
 
 assert prod(find_combination(expenses, 2020)) == 776_064  # Solution 1
 assert prod(find_combination(expenses, 2020, n_combos=3)) == 6_964_490  # Solution 2
