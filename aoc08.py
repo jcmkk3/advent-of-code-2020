@@ -101,7 +101,7 @@ def fix_program(program: Program) -> Program:
 
 
 with open("input/aoc08.txt") as f:
-    program = [Instruction.from_line(i) for i in f.readlines()]
+    program = [Instruction.from_line(l) for l in f.readlines()]
 
 assert GameConsole(program).run().accumulator == 1949  # Solution 1
 
