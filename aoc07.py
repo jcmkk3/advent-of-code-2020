@@ -1,6 +1,6 @@
 import re
-from typing import Tuple, Dict, Set
-from collections import deque, Counter
+from collections import Counter, deque
+from typing import Dict, Set, Tuple
 
 #  ('light red', {'bright white': 1, 'muted yellow': 2})
 Bag = Tuple[str, Dict[str, int]]

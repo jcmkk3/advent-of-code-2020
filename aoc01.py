@@ -10,9 +10,7 @@ def find_combination(numbers: Iterable[int], target: int, n_combos: int = 2):
     Combinations greater than 2 can be calculated by setting `n_combos`.
     """
     combos = combinations(numbers, n_combos)
-    matches = (c for c in combos if sum(c) == target)
-    # Return product of only first matching combo
-    return next(matches)
+    return next(c for c in combos if sum(c) == target)
 
 
 with open("input/aoc01.txt") as f:

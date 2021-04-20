@@ -1,5 +1,5 @@
-from typing import List, Iterable, Tuple
 from math import prod
+from typing import Iterable, List, Tuple
 
 
 class Terrain:

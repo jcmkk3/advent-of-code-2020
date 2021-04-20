@@ -93,11 +93,10 @@ def fix_program(program: Program) -> Program:
     it finds a version that finishes successfully. Returns the
     successful program.
     """
-    mutations = mutate_instructions(program)
-    for mutated_program in mutations:
-        exit = GameConsole(mutated_program).run()
-        if exit.status == "Success":
-            return mutated_program
+    mutated_programs = mutate_instructions(program)
+    return next(
+        mp for mp in mutated_programs if GameConsole(mp).run().status == "Success"
+    )
 
 
 with open("input/aoc08.txt") as f:
