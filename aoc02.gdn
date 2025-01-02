@@ -1,0 +1,116 @@
+fun parse_input(path: Path): List<Entry> {
+  path
+  .read()
+  .or_error()
+  .lines()
+  .map(entry_from_string)
+}
+
+struct Entry {
+  lo: Int,
+  hi: Int,
+  char: String,
+  pass: String,
+}
+
+fun entry_from_string(s: String): Entry {
+  let parts = s.split(" ")
+  let nums = parts.get(0).split("-")
+  
+  Entry{
+    lo: parse_int(nums.get(0)).or_error()
+    hi: parse_int(nums.get(1)).or_error()
+    char: parts.get(1).strip_suffix(":")
+    pass: parts.get(2)
+  }
+}
+
+fun (this: Entry) is_valid1(): Bool {
+  let count = this.pass.chars().filter(fun(s: String) { s == this.char } ).len()
+  (this.lo <= count) && (count <= this.hi)
+}
+
+fun (this: Entry) is_valid2(): Bool {
+  let lo = this.pass.substring(this.lo - 1, this.lo)
+  let hi = this.pass.substring(this.hi - 1, this.hi)
+  (this.char == lo) != (this.char == hi)
+}
+
+test sample_input {
+  let entries = [
+    Entry{lo: 1, hi: 3, char: "a", pass: "abcde"},
+    Entry{lo: 1, hi: 3, char: "b", pass: "cdefg"},
+    Entry{lo: 2, hi: 9, char: "c", pass: "ccccccccc"},
+  ]
+
+  let valid1 = entries.filter(fun(e: Entry) { e.is_valid1() }).len()
+  assert(valid1 == 2)
+
+  let valid2 = entries.filter(fun(e: Entry) { e.is_valid2() }).len()
+  assert(valid2 == 1)
+}
+
+test full_input {
+  let path = working_directory().join("input/aoc02.txt")
+  let entries = parse_input(path)
+
+  let valid1 = entries.filter(fun(e: Entry) { e.is_valid1() }).len()
+  assert(valid1 == 416)
+
+  let valid2 = entries.filter(fun(e: Entry) { e.is_valid2() }).len()
+  assert(valid2 == 688)
+}
+
+fun (this: Int) is_even(): Bool {
+  (this % 2) == 0
+}
+
+fun (this: Int) is_odd(): Bool {
+  this.is_even().not()
+}
+
+// exp_by_squaring_iterative algorithm from wikipedia:
+// https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+fun (this: Int) pow(power: Int): Int {
+  let x = this
+  let n = power
+  
+  if power < 0 {
+    x = 1 / x
+    n = n * -1
+  }
+  
+  if n == 0 {
+    return 1
+  }
+  
+  let y = 1
+  while n > 1 {
+    if n.is_odd() {
+      y = x * y
+      n = n - 1
+    }
+    x = x * x
+    n = n / 2
+  }
+  
+  x * y
+}
+
+fun parse_int(s: String): Result<Int, String> {
+  let digits = "0123456789"
+  let result = 0
+
+  for i in range(0, s.len()) {
+    let char = s.substring(i, i + 1)
+    match digits.index_of(char) {
+      Some(num) => {
+	result += num * 10.pow(s.len() - (i + 1))
+      },
+      None => return Err("Unable to parse Int")
+    }
+  }
+
+  Ok(result)
+}
+
