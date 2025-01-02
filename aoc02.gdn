@@ -61,51 +61,16 @@ test full_input {
   assert(valid2 == 688)
 }
 
-fun (this: Int) is_even(): Bool {
-  (this % 2) == 0
-}
-
-fun (this: Int) is_odd(): Bool {
-  this.is_even().not()
-}
-
-// exp_by_squaring_iterative algorithm from wikipedia:
-// https://en.wikipedia.org/wiki/Exponentiation_by_squaring
-fun (this: Int) pow(power: Int): Int {
-  let x = this
-  let n = power
-  
-  if power < 0 {
-    x = 1 / x
-    n = n * -1
-  }
-  
-  if n == 0 {
-    return 1
-  }
-  
-  let y = 1
-  while n > 1 {
-    if n.is_odd() {
-      y = x * y
-      n = n - 1
-    }
-    x = x * x
-    n = n / 2
-  }
-  
-  x * y
-}
-
 fun parse_int(s: String): Result<Int, String> {
   let digits = "0123456789"
   let result = 0
 
   for i in range(0, s.len()) {
     let char = s.substring(i, i + 1)
+    let places = s.len() - (i + 1)
     match digits.index_of(char) {
       Some(num) => {
-	result += num * 10.pow(s.len() - (i + 1))
+	result += num * (10 ^ places)
       },
       None => return Err("Unable to parse Int")
     }
