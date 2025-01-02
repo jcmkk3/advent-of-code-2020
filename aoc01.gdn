@@ -1,14 +1,6 @@
-fun parse_input(path: Path): List<Int> {
-  path
-  .read()
-  .or_error()
-  .lines()
-  .map(fun(s: String) { parse_int(s).or_error() })
-}
-
 fun solve(nums: List<Int>, target: Int): Option<Int> {
   let seen = []
-  
+
   for num in nums {
     let need = target - num
     if nums.contains(need) {
@@ -16,7 +8,6 @@ fun solve(nums: List<Int>, target: Int): Option<Int> {
     }
     seen.append(num)
   }
-  
   None
 }
 
@@ -31,8 +22,7 @@ fun solve2(nums: List<Int>): Option<Int> {
       Some(value) => return Some(num * value)
       None => continue
     }
-  }
-  
+  }  
   None
 }
 
@@ -45,7 +35,11 @@ test sample_input {
 
 test full_input {
   let path = working_directory().join("input/aoc01.txt")
-  let nums = parse_input(path)
+  let nums = path
+    .read()
+    .or_error()
+    .lines()
+    .map(fun(s: String) { parse_int(s).or_error() })
 
   assert(solve1(nums) == Some(776064))
   assert(solve2(nums) == Some(6964490))
@@ -65,7 +59,6 @@ fun parse_int(s: String): Result<Int, String> {
       None => return Err("Unable to parse Int")
     }
   }
-
   Ok(result)
 }
 
