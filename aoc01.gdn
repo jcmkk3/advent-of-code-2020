@@ -54,7 +54,7 @@ fun parse_int(s: String): Result<Int, String> {
     let places = s.len() - (i + 1)
     match digits.index_of(char) {
       Some(num) => {
-	result += num * (10 ^ places)
+        result += num * (10 ^ places)
       },
       None => return Err("Unable to parse Int")
     }
