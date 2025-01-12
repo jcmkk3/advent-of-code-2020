@@ -1,3 +1,5 @@
+import "./aoc.gdn"
+
 struct Entry {
   lo: Int,
   hi: Int,
@@ -56,21 +58,3 @@ test full_input {
   let valid2 = entries.filter(fun(e: Entry) { e.is_valid2() }).len()
   assert(valid2 == 688)
 }
-
-fun parse_int(s: String): Result<Int, String> {
-  let digits = "0123456789"
-  let result = 0
-
-  for i in range(0, s.len()) {
-    let char = s.substring(i, i + 1)
-    let places = s.len() - (i + 1)
-    match digits.index_of(char) {
-      Some(num) => {
-        result += num * (10 ^ places)
-      },
-      None => return Err("Unable to parse Int")
-    }
-  }
-  Ok(result)
-}
-
