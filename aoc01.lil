@@ -1,0 +1,16 @@
+on prepare expenses do
+  "%i" parse "\n" split expenses
+end
+
+on solve1 entries do
+  prod extract where value in 2020 - entries from entries
+end
+
+on solve2 entries do
+  prod extract where value in 2020 - (sum @ entries cross entries) from entries
+end
+
+
+entries: prepare[read["input/aoc01.txt"]]
+print["Part 1: ", solve1[entries]]
+print["Part 2: ", solve2[entries]]
