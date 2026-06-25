@@ -1,0 +1,6 @@
+op solve1 xs = */ xs[where max/ xs in@ 2020 - xs]
+op solve2 xs = */ xs[where max/ xs in@ 2020 - xs +@ xs]
+
+expenses = ivy@ sys "read" "input/aoc01.txt"
+print "Part 1: ", text solve1 expenses
+print "Part 2: ", text solve2 expenses
